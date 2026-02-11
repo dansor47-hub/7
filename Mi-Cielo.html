@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Mi Cielo ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    height: 100vh;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    padding: 40px 25px;
+    border-radius: 20px;
+    text-align: center;
+    color: white;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    animation: fadeIn 2s ease;
+}
+
+h1 {
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+p {
+    font-size: 16px;
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+.buttons {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+button {
+    padding: 12px 25px;
+    font-size: 16px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.yes {
+    background: white;
+    color: #ff4f81;
+    font-weight: 600;
+}
+
+.yes:hover {
+    transform: scale(1.1);
+}
+
+.no {
+    background: #ff4f81;
+    color: white;
+    position: relative;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px);}
+    to { opacity: 1; transform: translateY(0);}
+}
+
+.message {
+    margin-top: 20px;
+    font-size: 18px;
+    display: none;
+    animation: fadeIn 1s ease;
+}
+
+.heart {
+    position: absolute;
+    font-size: 20px;
+    animation: float 4s linear infinite;
+    opacity: 0.7;
+}
+
+@keyframes float {
+    0% { transform: translateY(0); opacity: 1;}
+    100% { transform: translateY(-100vh); opacity: 0;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Mi Cielo ❤️</h1>
+    <p>
+        From the moment you came into my life,  
+        everything became brighter, softer, and more beautiful.  
+        You are my peace, my happiness, my forever.
+    </p>
+
+    <h2>Will you be my Valentine ? 💍</h2>
+
+    <div class="buttons">
+        <button class="yes" onclick="sayYes()">Yes 💖</button>
+        <button class="no" id="noBtn">No 😅</button>
+    </div>
+
+    <div class="message" id="loveMessage">
+        You just made me the happiest person alive ❤️💍  
+        I love you endlessly, Mi Cielo.
+    </div>
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+
+noBtn.addEventListener("mouseover", moveButton);
+noBtn.addEventListener("touchstart", moveButton);
+
+function moveButton() {
+    const container = document.querySelector(".container");
+    const maxX = container.clientWidth - noBtn.clientWidth;
+    const maxY = container.clientHeight - noBtn.clientHeight;
+
+    const randomX = Math.floor(Math.random() * maxX);
+    const randomY = Math.floor(Math.random() * maxY);
+
+    noBtn.style.position = "absolute";
+    noBtn.style.left = randomX + "px";
+    noBtn.style.top = randomY + "px";
+}
+
+function sayYes() {
+    document.getElementById("loveMessage").style.display = "block";
+    createHearts();
+}
+
+function createHearts() {
+    for (let i = 0; i < 30; i++) {
+        let heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "❤️";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.top = "100vh";
+        heart.style.fontSize = Math.random() * 20 + 15 + "px";
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 4000);
+    }
+}
+</script>
+
+</body>
+</html>
+
+
+
+
+<audio id="bgMusic" loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const buttonArea = document.getElementById("buttonArea");
+const music = document.getElementById("bgMusic");
+
+// Start music after first interaction
+document.addEventListener("click", () => {
+    music.play();
+}, { once: true });
+
+// Make No run away
+function moveButtonAway(x, y) {
+    const rect = noBtn.getBoundingClientRect();
+
+    const btnCenterX = rect.left + rect.width / 2;
+    const btnCenterY = rect.top + rect.height / 2;
+
+    const distanceX = btnCenterX - x;
+    const distanceY = btnCenterY - y;
+
+    const moveX = distanceX * 0.5;
+    const moveY = distanceY * 0.5;
+
+    let newLeft = noBtn.offsetLeft + moveX;
+    let newTop = noBtn.offsetTop + moveY;
+
+    newLeft = Math.max(0, Math.min(buttonArea.clientWidth - noBtn.offsetWidth, newLeft));
+    newTop = Math.max(0, Math.min(buttonArea.clientHeight - noBtn.offsetHeight, newTop));
+
+    noBtn.style.left = newLeft + "px";
+    noBtn.style.top = newTop + "px";
+}
+
+document.addEventListener("mousemove", (e) => {
+    moveButtonAway(e.clientX, e.clientY);
+});
+
+document.addEventListener("touchmove", (e) => {
+    const touch = e.touches[0];
+    moveButtonAway(touch.clientX, touch.clientY);
+});
+
+function sayYes() {
+    document.getElementById("loveMessage").style.display = "block";
+    createHearts();
+}
+
+function createHearts() {
+    for (let i = 0; i < 25; i++) {
+        let heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "❤️";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.top = "100vh";
+        heart.style.fontSize = Math.random() * 20 + 15 + "px";
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 4000);
+    }
+}
+</script>
+
